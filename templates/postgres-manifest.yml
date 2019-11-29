@@ -6,6 +6,7 @@ spec:
   teamId: "ACID"
   volume:
     size: 1Gi
+    storageClass: {{ zalando_postgresql_storage_class }}
   numberOfInstances: {{ zalando_postgresql_number_instances }}
   users:
     {{ zalando_postgresql_user }}:  # database owner
