@@ -1,0 +1,5 @@
+- name: put postgres-manifest.yml
+  template: src=postgres-manifest.yml dest=/root/postgres-manifest.yml
+
+- name: apply postgres-manifest.yml
+  command: kubectl apply -f /root/postgres-manifest.yml -n {{ k8s_namespace }}

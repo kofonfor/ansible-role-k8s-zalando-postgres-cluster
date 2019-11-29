@@ -1,0 +1,17 @@
+apiVersion: "acid.zalan.do/v1"
+kind: postgresql
+metadata:
+  name: {{ zalando_postgresql_cluster_name }}
+spec:
+  teamId: "ACID"
+  volume:
+    size: 1Gi
+  numberOfInstances: {{ zalando_postgresql_number_instances }}
+  users:
+    {{ zalando_postgresql_user }}:  # database owner
+    - superuser
+    - createdb
+  databases:
+    {{ zalando_postgresql_database }}: {{ zalando_postgresql_user }}  # dbname: owner
+  postgresql:
+    version: "11"
