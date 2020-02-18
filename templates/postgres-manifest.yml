@@ -3,16 +3,21 @@ kind: postgresql
 metadata:
   name: {{ zalando_postgresql_cluster_name }}
 spec:
-  teamId: "ACID"
+  teamId: "{{ zalando_postgresql_teamid }}"
   volume:
     size: 1Gi
     storageClass: {{ zalando_postgresql_storage_class }}
   numberOfInstances: {{ zalando_postgresql_number_instances }}
   users:
-    {{ zalando_postgresql_user }}:  # database owner
-    - superuser
-    - createdb
+{% for user in zalando_postgresql_users %}
+    {{ user.name }}:
+{% for permission in user.permissions %}
+    - {{ permission }}
+{% endfor %}
+{% endfor %}
   databases:
-    {{ zalando_postgresql_database }}: {{ zalando_postgresql_user }}  # dbname: owner
+{% for db in zalando_postgresql_databases %}
+    {{ db.name }}: {{ db.owner }}  # dbname: owner
+{% endfor %}
   postgresql:
     version: "11"
